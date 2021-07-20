@@ -23,4 +23,9 @@ class RomanosTests(unittest.TestCase):
         self.assertEqual(a_numero("CM"), 900)
         with self.assertRaises(ValueError):
             a_numero("IL")
+            a_numero("IC")
+            a_numero("IM")
+            a_numero("XM")
+            a_numero("XD")
+            
 
