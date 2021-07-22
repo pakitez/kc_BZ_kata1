@@ -51,27 +51,47 @@ def a_romano(n):
     if len(c) >=4:
         millares = int(c[-4])
 
-"""
-
+    """
     return simbolos["millares"][millares]+simbolos["centenas"][centenas]+simbolos["decenas"][decenas]+simbolos["unidades"][unidades]
 
 def a_numero(romano):
+    if len(romano)>15:
+        raise ValueError("No podemos tener más de 15 caracteres")
+
     total = 0
-    valorAnt = 0
+    valor_ant = 0
+    repetido = 0
     for caracter in romano:
-        valor = diccionario[caracter]
-        if valor > valorAnt:
-            if valorAnt in(5,50,500):
+        valor = diccionario.get(caracter)
+
+        if not valor:
+            raise ValueError("Debes introducir números romanos")
+
+        if valor > valor_ant:
+            if valor_ant in(5,50,500):
                 raise ValueError("{} No se puede restar V, L, D ".format(romano))
 
-            if valorAnt > 0 and valor > 10 * valorAnt:
+            if valor_ant > 0 and valor > 10 * valor_ant:
                 raise ValueError("{} No se puede restar con un salto mayor a un orden de magnitud ".format(romano))
+
+            if repetido >0:
+                raise ValueError("{} No se puede colocar 2 numeros menores".format(romano))
             
-            total -= valorAnt
-            total += valor - valorAnt
+            total -= valor_ant
+            total += valor - valor_ant
         else:
             total += valor 
 
-        valorAnt = valor
+        if valor == valor_ant:
+            repetido += 1
+            if valor_ant in(5,50,500):
+                raise ValueError("{} No se puede escribir dos V, L, o D seguidos".format(romano))
+        else:
+            repetido = 0
+
+        if repetido>=3:
+            raise ValueError("{} No se puede repetir más de 3 veces un caracter ".format(romano))   
+
+        valor_ant = valor
     
     return total
