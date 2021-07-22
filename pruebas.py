@@ -1,3 +1,3 @@
-from romanos import a_romano
+from romanos import *
 
-a_romano(1985)
+a_numero("CDXXIV")

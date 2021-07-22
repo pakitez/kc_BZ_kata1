@@ -61,13 +61,17 @@ def a_numero(romano):
     total = 0
     valor_ant = 0
     repetido = 0
+    menor = 0
     for caracter in romano:
         valor = diccionario.get(caracter)
 
         if not valor:
             raise ValueError("Debes introducir números romanos")
 
-        if valor > valor_ant:
+        if valor_ant and valor > valor_ant:
+            if menor>0:
+                raise ValueError("{} No se pueden contatenar dos restas ".format(romano))
+
             if valor_ant in(5,50,500):
                 raise ValueError("{} No se puede restar V, L, D ".format(romano))
 
@@ -79,8 +83,10 @@ def a_numero(romano):
             
             total -= valor_ant
             total += valor - valor_ant
+            menor += 1
         else:
-            total += valor 
+            total += valor
+            menor= 0
 
         if valor == valor_ant:
             repetido += 1
